@@ -3,8 +3,8 @@ import 'package:lottie/lottie.dart';
 import 'package:http/http.dart' as http;
 
 class EditingForm extends StatefulWidget {
-
-  const EditingForm({Key? key}) : super(key: key);
+  final dynamic todos;
+  EditingForm({required this.todos,Key? key}) : super(key: key);
 
   @override
   State<EditingForm> createState() => _EditingFormState();
@@ -12,39 +12,38 @@ class EditingForm extends StatefulWidget {
 
 class _EditingFormState extends State<EditingForm> {
 
-  List todos = <dynamic> [];
   List todosPlaceHolder = <dynamic> [];
 
   TextEditingController titleController = TextEditingController();
   TextEditingController bodyController = TextEditingController();
 
-  var checker;
+  bool? checker;
   var formKey = GlobalKey<FormState>();
 
-  bool confirmDelete = false;
+  bool? confirmDelete = false;
 
   @override
 
   void initState() {
     super.initState();
-    titleController.text = todos[simpleLoop()]['title'];
-    bodyController.text = todos[simpleLoop()]['body'];
-    transferTodo();
+    titleController.text = widget.todos['title'];
+    bodyController.text = widget.todos['body'];
+    // transferTodo();
   }
 
-  simpleLoop(){
-    for (var index in todos){
-      return index;
-    }
-  }
+  // simpleLoop(){
+  //   for (var index in todos){
+  //     return index;
+  //   }
+  // }
 
-  transferTodo(){
-    for (int i = 0; i<=todos.length; i++){
-      setState(() {
-        todosPlaceHolder.add(todos[i]);
-      });
-    }
-  }
+  // transferTodo(){
+  //   for (int i = 0; i<=widget.todos.length; i++){
+  //     setState(() {
+  //       todosPlaceHolder.add(widget.todos[i]);
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -82,13 +81,14 @@ class _EditingFormState extends State<EditingForm> {
                         fontWeight: FontWeight.bold
                       ),),
                       Switch(
-                          value: checker,
+                          value: checker ?? false,
                           activeColor: Colors.green,
-                          onChanged: (bool value){
+                          onChanged: (bool? value){
                             setState(() {
                               checker = value;
                             });
-                          })
+                          }
+                          )
                     ],
                   ),
                 ),
@@ -171,7 +171,7 @@ class _EditingFormState extends State<EditingForm> {
                       onPrimary: Colors.white, // foreground
                     ),
                     onPressed: () async {
-                      await openDialog(todos);
+                      await openDialog(widget.todos);
                       Navigator.pop(
                         context,
                         todosPlaceHolder
