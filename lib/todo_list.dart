@@ -4,11 +4,11 @@ import 'package:todo_assignment/floating_actionbutton.dart';
 import 'package:http/http.dart' as http;
 import 'package:todo_assignment/radio_panellist.dart';
 import 'dart:convert' as convert;
-
 import 'custom_scrollbar.dart';
 
 class TodoList extends StatefulWidget {
-  const TodoList({Key? key}) : super(key: key);
+  var receive;
+  TodoList({Key? key, this.receive}) : super(key: key);
 
   @override
   State<TodoList> createState() => _TodoList();
@@ -17,7 +17,7 @@ class TodoList extends StatefulWidget {
 
 class _TodoList extends State<TodoList> {
 
-  List todos = <dynamic> [];
+
 
   @override
   void initState() {
@@ -29,25 +29,30 @@ class _TodoList extends State<TodoList> {
     var url = 'https://jsonplaceholder.typicode.com/posts';
     var response = await http.get(Uri.parse(url));
     setState(() {
-      todos = convert.jsonDecode(response.body);
+      widget.receive = convert.jsonDecode(response.body);
      }
     );
   }
+
+  // createTodo() async {
+  //   var url = 'https://jsonplaceholder.typicode.com/posts';
+  //   var created = await http.post(url, body: );
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("To-do list Page"),
-        leading: const Icon(Icons.fact_check_outlined),
+        leading: const Icon(Icons.fact_check_outlined)
       ),
       body: CustomScrollBar(
         builder: (controller) => ListView.builder(
           padding: const EdgeInsets.all(10),
           controller: controller,
-          itemCount: todos.length,
+          itemCount: widget.receive.length,
           itemBuilder: (BuildContext context, int index) {
-            return CustomPanel(todos: todos[index]);
+            return CustomPanel();
             //   ExpansionTile(
             //   backgroundColor: Colors.grey[100],
             //   expandedAlignment: Alignment.center,

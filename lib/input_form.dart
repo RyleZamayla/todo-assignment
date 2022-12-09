@@ -31,15 +31,6 @@ class _InputFormState extends State<InputForm> {
                 padding: const EdgeInsets.all(10),
                 child: Lottie.asset("assets/93038-notifications.json", height: 350),
               ),
-              Container(
-                padding: const EdgeInsets.all(10),
-                child: const Text("This is a simple TODO list incorporating API practices",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                    fontSize: 18
-                  ),
-                ),
-              ),
               const SizedBox(
                 height: 10,
               ),
