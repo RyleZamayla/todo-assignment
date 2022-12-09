@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:todo_assignment/editing_form.dart';
 
-
 class CustomPanel extends StatefulWidget {
-  final Map<String, dynamic> todos;
-  const CustomPanel({Key? key, required this.todos}) : super(key: key);
+
+  const CustomPanel({Key? key}) : super(key: key);
 
   @override
   State<CustomPanel> createState() => _CustomPanelState();
@@ -12,14 +11,10 @@ class CustomPanel extends StatefulWidget {
 
 class _CustomPanelState extends State<CustomPanel> {
 
-  bool _expanded = false;
-  bool _showMoreOptions = false;
+  var receive;
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
+  bool _expanded = false;
+  bool isChecked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +25,17 @@ class _CustomPanelState extends State<CustomPanel> {
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 10),
               child: GestureDetector(
-                onLongPress: (){
+                onLongPress: () async{
+                  var todoReciever = await
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const EditingForm())
+                          builder: (context) => EditingForm(),
+                      ),
                   );
+                  setState(() {
+                    receive.add(todoReciever);
+                  });
                 },
                 child: ExpansionPanelList(
                   animationDuration: const Duration(milliseconds: 500),
@@ -43,8 +43,11 @@ class _CustomPanelState extends State<CustomPanel> {
                     ExpansionPanel(
                         headerBuilder: (context, isExpanded) {
                           return ListTile(
-                            leading: const Icon(Icons.check_circle_outline),
-                            title: Text(widget.todos["title"],),
+                            leading:
+                              isChecked ? const Icon(Icons.check_circle_outline,
+                                  color: Colors.green)
+                                        : const Icon(Icons.check_circle_outline),
+                            title: Text(receive["title"],),
                             // trailing: Row(
                             //   mainAxisSize: MainAxisSize.min,
                             //   children: const <Widget> [
@@ -64,7 +67,7 @@ class _CustomPanelState extends State<CustomPanel> {
                               bottom: 30
                           ),
                           child: ListTile(
-                            title: Text(widget.todos["body"],
+                            title: Text(receive["body"],
                               style: const TextStyle(
                                   fontStyle: FontStyle.italic
                               ),
