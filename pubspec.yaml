@@ -63,6 +63,7 @@ flutter:
   uses-material-design: true
 
   assets:
+      - 105012-edit-document.json
       - 93038-notifications.json
   #   - images/a_dot_ham.jpeg
 

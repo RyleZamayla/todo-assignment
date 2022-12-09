@@ -14,7 +14,10 @@ class _InputFormState extends State<InputForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
+        title: const Align(
+          alignment: Alignment.centerRight,
+          child: Text("Create your Todos task here"),
+        ),
       ),
       body: Center(
         child: Form(
@@ -78,7 +81,6 @@ class _InputFormState extends State<InputForm> {
                     maxLines: 5,
                     style: const TextStyle(
                       fontSize: 15,
-
                     ),
                     decoration: const InputDecoration(
                         labelText: "Enter your Description:",
@@ -96,15 +98,9 @@ class _InputFormState extends State<InputForm> {
                   onPressed: () {
 
                   },
-                  style: ButtonStyle(
-                    overlayColor: MaterialStateProperty.resolveWith<Color?>(
-                          (Set<MaterialState> states) {
-                        if (states.contains(MaterialState.pressed)) {
-                          return Colors.indigoAccent;
-                        }
-                        return null;
-                      },
-                    ),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.blue, // background
+                    onPrimary: Colors.white, // foreground
                   ),
                   child: const Text("Submit",
                     style:

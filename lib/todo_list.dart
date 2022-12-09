@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todo_assignment/bottom_nav_bar.dart';
 import 'package:todo_assignment/floating_actionbutton.dart';
 import 'package:http/http.dart' as http;
+import 'package:todo_assignment/radio_panellist.dart';
 import 'dart:convert' as convert;
 
 import 'custom_scrollbar.dart';
@@ -46,27 +47,28 @@ class _TodoList extends State<TodoList> {
           controller: controller,
           itemCount: todos.length,
           itemBuilder: (BuildContext context, int index) {
-            return ExpansionTile(
-              backgroundColor: Colors.grey[100],
-              expandedAlignment: Alignment.center,
-              title: Text(todos[index]["title"]),
-              leading: const Icon(Icons.check_box_outline_blank),
-              trailing: const SizedBox.shrink(),
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 25
-                  ),
-                  child: Text(
-                    todos[index]["body"],
-                    style: const TextStyle(
-                      fontStyle: FontStyle.italic
-                    ),
-                  ),
-                )
-              ]
-            );
+            return CustomPanel(todos: todos[index]);
+            //   ExpansionTile(
+            //   backgroundColor: Colors.grey[100],
+            //   expandedAlignment: Alignment.center,
+            //   title: Text(todos[index]["title"]),
+            //   leading: const Icon(Icons.check_box_outline_blank),
+            //   trailing: const SizedBox.shrink(),
+            //   children: <Widget>[
+            //     Padding(
+            //       padding: const EdgeInsets.symmetric(
+            //           horizontal: 10,
+            //           vertical: 25
+            //       ),
+            //       child: Text(
+            //         todos[index]["body"],
+            //         style: const TextStyle(
+            //           fontStyle: FontStyle.italic
+            //         ),
+            //       ),
+            //     )
+            //   ]
+            // );
           },
         ),
       ),
@@ -76,3 +78,4 @@ class _TodoList extends State<TodoList> {
     );
   }
 }
+
