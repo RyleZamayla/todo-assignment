@@ -4,9 +4,7 @@ import 'package:todo_assignment/floating_actionbutton.dart';
 import 'package:http/http.dart' as http;
 import 'package:todo_assignment/radio_panellist.dart';
 import 'dart:convert' as convert;
-
 import 'custom_scrollbar.dart';
-import 'editing_form.dart';
 
 class TodoList extends StatefulWidget {
   const TodoList({Key? key}) : super(key: key);
@@ -16,6 +14,7 @@ class TodoList extends StatefulWidget {
 }
 
 class _TodoList extends State<TodoList> {
+
   List todos = <dynamic>[];
 
   @override
@@ -32,7 +31,9 @@ class _TodoList extends State<TodoList> {
     });
   }
 
-
+  deleteTodo(var todo) async {
+    await http.delete(Uri.parse('https://jsonplaceholder.typicode.com/posts/$todo'));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +48,7 @@ class _TodoList extends State<TodoList> {
           controller: controller,
           itemCount: todos.length,
           itemBuilder: (BuildContext context, int index) {
-            return CustomPanel(receive: todos[index]);
+            return CustomPanel(receive: todos[index], receiveDelete: todos[index],);
             //   ExpansionTile(
             //   backgroundColor: Colors.grey[100],
             //   expandedAlignment: Alignment.center,

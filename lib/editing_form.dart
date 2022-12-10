@@ -4,7 +4,8 @@ import 'package:http/http.dart' as http;
 
 class EditingForm extends StatefulWidget {
   final dynamic todos;
-  EditingForm({required this.todos,Key? key}) : super(key: key);
+  final dynamic deleteTodo;
+  const EditingForm({Key? key, required this.todos, required this.deleteTodo}) : super(key: key);
 
   @override
   State<EditingForm> createState() => _EditingFormState();
@@ -88,7 +89,7 @@ class _EditingFormState extends State<EditingForm> {
                               checker = value;
                             });
                           }
-                          )
+                        )
                     ],
                   ),
                 ),
@@ -108,7 +109,6 @@ class _EditingFormState extends State<EditingForm> {
                       ),
                       decoration: const InputDecoration(
                           labelText: "Enter a Task:",
-
                           icon: Icon(Icons.checklist_outlined)
                       ),
                     ),
@@ -171,11 +171,13 @@ class _EditingFormState extends State<EditingForm> {
                       onPrimary: Colors.white, // foreground
                     ),
                     onPressed: () async {
-                      await openDialog(widget.todos);
+                      var status = await openDialog(widget.todos);
                       Navigator.pop(
-                        context,
-                        todosPlaceHolder
+                        context, widget.todos
                       );
+                      setState(() {
+                        widget.todos.add(status);
+                      });
                     },
                     child: const Text("Delete",
                       style:
@@ -190,9 +192,7 @@ class _EditingFormState extends State<EditingForm> {
     );
   }
 
-  deleteTodo(var todo) async {
-    await http.delete(Uri.parse('https://jsonplaceholder.typicode.com/posts/$todo'));
-  }
+
 
   Future openDialog(todo) => showDialog(
       context: context,
@@ -212,15 +212,17 @@ class _EditingFormState extends State<EditingForm> {
           actions: [
             TextButton(
                 onPressed: () {
-                  deleteTodo(todo);
-                  Navigator.of(context).pop();
+                  widget.deleteTodo(todo);
+                  Navigator.pop(context);
                 },
                 child: const Text('Delete Task',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: Colors.red
-                ),))
+                ),
+              )
+            )
           ],
         )
       )

@@ -3,7 +3,8 @@ import 'package:todo_assignment/editing_form.dart';
 
 class CustomPanel extends StatefulWidget {
   final dynamic receive;
-  CustomPanel({required this.receive, Key? key}) : super(key: key);
+  final dynamic receiveDelete;
+  const CustomPanel({required this.receive, Key? key, required this.receiveDelete}) : super(key: key);
 
   @override
   State<CustomPanel> createState() => _CustomPanelState();
@@ -28,7 +29,7 @@ class _CustomPanelState extends State<CustomPanel> {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            EditingForm(todos: widget.receive),
+                            EditingForm(todos: widget.receive, deleteTodo: widget.receiveDelete,),
                       ),
                     );
                     setState(() {
