@@ -3,7 +3,7 @@ import 'package:todo_assignment/editing_form.dart';
 
 class CustomPanel extends StatefulWidget {
   final dynamic receive;
-  final dynamic receiveDelete;
+  final Function receiveDelete;
   const CustomPanel({required this.receive, Key? key, required this.receiveDelete}) : super(key: key);
 
   @override
@@ -23,32 +23,33 @@ class _CustomPanelState extends State<CustomPanel> {
         Center(
             child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 10),
-                child: GestureDetector(
-                  onLongPress: () async {
-                    var todoReciever = await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            EditingForm(todos: widget.receive, deleteTodo: widget.receiveDelete,),
-                      ),
-                    );
-                    setState(() {
-                      widget.receive.add(todoReciever);
-                    });
-                  },
                   child: ExpansionPanelList(
                     animationDuration:
                     const Duration(milliseconds: 500),
                     children: [
                       ExpansionPanel(
                         headerBuilder: (context, isExpanded) {
-                          return ListTile(
+                          return GestureDetector(
+                              onLongPress: () async {
+                            var todoReciever = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    EditingForm(todos: widget.receive, deleteTodo: widget.receiveDelete,),
+                              ),
+                            );
+                            setState(() {
+                              widget.receive.add(todoReciever);
+                            });
+                          },
+                          child: ListTile(
                             leading: isChecked
                                 ? const Icon(Icons.check_circle_outline,
                                 color: Colors.green)
                                 : const Icon(
                                 Icons.check_circle_outline),
                             title: Text(widget.receive["title"].toString()),
+                          )
                             // trailing: Row(
                             //   mainAxisSize: MainAxisSize.min,
                             //   children: const <Widget> [
@@ -82,7 +83,8 @@ class _CustomPanelState extends State<CustomPanel> {
                     },
                     dividerColor: Colors.grey,
                   ),
-                )))
+            )
+        )
       ],
     );
 

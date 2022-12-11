@@ -31,7 +31,7 @@ class _TodoList extends State<TodoList> {
     });
   }
 
-  deleteTodo(var todo) async {
+  Future deleteTodo(var todo) async {
     await http.delete(Uri.parse('https://jsonplaceholder.typicode.com/posts/$todo'));
   }
 
@@ -48,7 +48,7 @@ class _TodoList extends State<TodoList> {
           controller: controller,
           itemCount: todos.length,
           itemBuilder: (BuildContext context, int index) {
-            return CustomPanel(receive: todos[index], receiveDelete: todos[index],);
+            return CustomPanel(receive: todos[index], receiveDelete: deleteTodo(todos),);
             //   ExpansionTile(
             //   backgroundColor: Colors.grey[100],
             //   expandedAlignment: Alignment.center,

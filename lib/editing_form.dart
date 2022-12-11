@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 class EditingForm extends StatefulWidget {
   final dynamic todos;
-  final dynamic deleteTodo;
+  final Function deleteTodo;
   const EditingForm({Key? key, required this.todos, required this.deleteTodo}) : super(key: key);
 
   @override
@@ -171,13 +171,10 @@ class _EditingFormState extends State<EditingForm> {
                       onPrimary: Colors.white, // foreground
                     ),
                     onPressed: () async {
-                      var status = await openDialog(widget.todos);
+                      await openDialog(widget.todos);
                       Navigator.pop(
                         context, widget.todos
                       );
-                      setState(() {
-                        widget.todos.add(status);
-                      });
                     },
                     child: const Text("Delete",
                       style:
@@ -212,7 +209,7 @@ class _EditingFormState extends State<EditingForm> {
           actions: [
             TextButton(
                 onPressed: () {
-                  widget.deleteTodo(todo);
+                  // widget.deleteTodo(todo);
                   Navigator.pop(context);
                 },
                 child: const Text('Delete Task',
