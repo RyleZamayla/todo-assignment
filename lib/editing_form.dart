@@ -4,8 +4,7 @@ import 'package:http/http.dart' as http;
 
 class EditingForm extends StatefulWidget {
   final dynamic todos;
-  final Function deleteTodo;
-  const EditingForm({Key? key, required this.todos, required this.deleteTodo}) : super(key: key);
+  const EditingForm({Key? key, required this.todos}) : super(key: key);
 
   @override
   State<EditingForm> createState() => _EditingFormState();
@@ -13,15 +12,15 @@ class EditingForm extends StatefulWidget {
 
 class _EditingFormState extends State<EditingForm> {
 
-  List todosPlaceHolder = <dynamic> [];
 
   TextEditingController titleController = TextEditingController();
   TextEditingController bodyController = TextEditingController();
 
   bool? checker;
+
   var formKey = GlobalKey<FormState>();
 
-  bool? confirmDelete = false;
+  bool confirmDelete = false;
 
   @override
 
@@ -30,6 +29,10 @@ class _EditingFormState extends State<EditingForm> {
     titleController.text = widget.todos['title'];
     bodyController.text = widget.todos['body'];
     // transferTodo();
+  }
+
+  deleteTodo(var todo) async {
+    await http.delete(Uri.parse('https://jsonplaceholder.typicode.com/posts/$todo'));
   }
 
   // simpleLoop(){
@@ -173,8 +176,10 @@ class _EditingFormState extends State<EditingForm> {
                     onPressed: () async {
                       await openDialog(widget.todos);
                       Navigator.pop(
-                        context, widget.todos
+                        context,
                       );
+                      confirmDelete ? deleteTodo(widget.todos) : print('wala na delete');
+                      // print(widget.todos);
                     },
                     child: const Text("Delete",
                       style:
@@ -188,8 +193,6 @@ class _EditingFormState extends State<EditingForm> {
         )
     );
   }
-
-
 
   Future openDialog(todo) => showDialog(
       context: context,
@@ -208,8 +211,7 @@ class _EditingFormState extends State<EditingForm> {
           ),
           actions: [
             TextButton(
-                onPressed: () {
-                  // widget.deleteTodo(todo);
+                onPressed: ()  {
                   Navigator.pop(context);
                 },
                 child: const Text('Delete Task',

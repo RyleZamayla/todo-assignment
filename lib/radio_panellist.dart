@@ -3,8 +3,7 @@ import 'package:todo_assignment/editing_form.dart';
 
 class CustomPanel extends StatefulWidget {
   final dynamic receive;
-  final Function receiveDelete;
-  const CustomPanel({required this.receive, Key? key, required this.receiveDelete}) : super(key: key);
+  const CustomPanel({Key? key, required this.receive}) : super(key: key);
 
   @override
   State<CustomPanel> createState() => _CustomPanelState();
@@ -31,16 +30,16 @@ class _CustomPanelState extends State<CustomPanel> {
                         headerBuilder: (context, isExpanded) {
                           return GestureDetector(
                               onLongPress: () async {
-                            var todoReciever = await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    EditingForm(todos: widget.receive, deleteTodo: widget.receiveDelete,),
-                              ),
-                            );
-                            setState(() {
-                              widget.receive.add(todoReciever);
-                            });
+                                await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      EditingForm(todos: widget.receive),
+                                ),
+                                );
+                                setState(() {
+
+                                });
                           },
                           child: ListTile(
                             leading: isChecked
